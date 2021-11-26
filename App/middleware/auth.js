@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const env = require('../config/env.js');
-const db = require('../config/db.config.js');
+const constValues = require('../utils/constants.js');
 
 let userRole;
 
@@ -23,7 +23,7 @@ verifyToken = (req, res, next) => {
 		  message: "Invalid Token!"
 		});
 	  }else{
-        userRole = decoded.role;
+        req.userDetails = decoded;
 		next();
 		//res.status(200).send({ message: "successs" });
 	  }
@@ -31,7 +31,7 @@ verifyToken = (req, res, next) => {
 };
 
 isAdmin = (req, res,next) => {
-	if(userRole!=="Admin"){
+	if(req.userDetails.role !==constValues.userRoles.ADMIN){
 		res.status(401).send({
 			message: "Unauthorized Access"
 		});
@@ -42,7 +42,7 @@ isAdmin = (req, res,next) => {
 };
 
 isInstructor = (req, res,next) => {
-    if(userRole!=="Instructor"){
+    if(req.userDetails.role!==constValues.userRoles.INSTRUCTOR){
 		res.status(401).send({
 			message: "Unauthorized Access"
 		});
@@ -53,7 +53,7 @@ isInstructor = (req, res,next) => {
 };
 
 isStudent = (req, res,next) => {
-    if(userRole!=="Student"){
+    if(req.userDetails.role !==constValues.userRoles.STUDENT){
 		res.status(401).send({
 			message: "Unauthorized Access"
 		});
@@ -64,10 +64,10 @@ isStudent = (req, res,next) => {
 };
 
 const authJwt = {
-    verifyToken: verifyToken,
-    isAdmin: isAdmin,
-    isInstructor: isInstructor,
-    isStudent: isStudent
-  };
+	verifyToken: verifyToken,
+	isAdmin: isAdmin,
+	isInstructor: isInstructor,
+	isStudent: isStudent
+};
 
 module.exports = authJwt;

@@ -38,13 +38,19 @@ function initial() {
     User.create({
       username: "admin",
       password: bcrypt.hashSync("123456", 8),
-      role: constValues.userRoles.Admin
+      role: constValues.userRoles.ADMIN
     });
 
     User.create({
       username: "sithija",
       password: bcrypt.hashSync("123456", 8),
-      role: constValues.userRoles.Instrctor
+      role: constValues.userRoles.INSTRUCTOR
+    });
+
+    User.create({
+      username: "student1",
+      password: bcrypt.hashSync("123456", 8),
+      role: constValues.userRoles.STUDENT
     });
 
     Module.create({

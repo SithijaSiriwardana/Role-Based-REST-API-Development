@@ -9,12 +9,12 @@ var generator = require('generate-password');
 
 
 exports.classCreate = async (req, res) => {
-    console.log("ff");
+
     try {
         // Get all the students username 
         const users = await User.findAll({
             where: {
-                role: constValues.userRoles.Student
+                role: constValues.userRoles.STUDENT
             },
         })
       
@@ -64,7 +64,7 @@ exports.classCreate = async (req, res) => {
             await User.create({
                 username: req.body.studentNameList[i],
                 password: bcrypt.hashSync(password, 8),
-                role: constValues.userRoles.Student,
+                role: constValues.userRoles.STUDENT,
                 class_id: createClass.class_id
             })
         }
