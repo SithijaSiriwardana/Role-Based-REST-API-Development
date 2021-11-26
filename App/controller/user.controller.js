@@ -59,7 +59,7 @@ exports.viewModules = async (req, res) => {
 		join class_module on classes.class_id = class_module.class_id
 		join modules on class_module.module_id = modules.module_id 
 		where user_id = ${req.userDetails.id};`, null, { raw: true })
-
+		console.log(result);
 		const modules = result[0].map(res => {
 			return res.module_name
 		})
