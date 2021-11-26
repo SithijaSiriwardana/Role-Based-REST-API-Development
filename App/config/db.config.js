@@ -21,5 +21,21 @@ db.sequelize = sequelize;
 
 //Models/tables
 db.users = require('../model/user.model.js')(sequelize, Sequelize);
+db.classes = require("../model/class.model.js")(sequelize, Sequelize);
+db.modules = require("../model/module.model.js")(sequelize, Sequelize);
+
+db.classes.hasMany(db.users, {
+  foreignKey: "class_id"
+});
+
+db.modules.belongsToMany(db.classes, {
+  through: "class_module",
+  foreignKey: "module_id"
+});
+
+db.classes.belongsToMany(db.modules, {
+  through: "class_module",
+  foreignKey: "class_id"
+});
 
 module.exports = db;
