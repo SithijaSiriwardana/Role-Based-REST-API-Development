@@ -24,6 +24,8 @@
     "generate-password": "^1.7.0",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
-    "sequelize": "^6.12.0-alpha.1"
+    "sequelize": "^6.12.0-alpha.1",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.1.6"
   }
 }

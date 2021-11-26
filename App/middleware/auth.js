@@ -24,7 +24,6 @@ verifyToken = (req, res, next) => {
 		});
 	  }else{
         userRole = decoded.role;
-		console.log("jwt verified")
 		next();
 		//res.status(200).send({ message: "successs" });
 	  }
@@ -33,7 +32,7 @@ verifyToken = (req, res, next) => {
 
 isAdmin = (req, res,next) => {
 	if(userRole!=="Admin"){
-		res.status(403).send({
+		res.status(401).send({
 			message: "Unauthorized Access"
 		});
 		return;
@@ -42,9 +41,9 @@ isAdmin = (req, res,next) => {
 	return;	
 };
 
-isInstructor = (res) => {
+isInstructor = (req, res,next) => {
     if(userRole!=="Instructor"){
-		res.status(403).send({
+		res.status(401).send({
 			message: "Unauthorized Access"
 		});
 		return;
@@ -53,9 +52,9 @@ isInstructor = (res) => {
 	return;
 };
 
-isStudent = (res) => {
+isStudent = (req, res,next) => {
     if(userRole!=="Student"){
-		res.status(403).send({
+		res.status(401).send({
 			message: "Unauthorized Access"
 		});
 		return;
