@@ -40,27 +40,5 @@ function initial() {
       password: bcrypt.hashSync("123456", 8),
       role: constValues.userRoles.ADMIN
     });
-
-    User.create({
-      username: "sithija",
-      password: bcrypt.hashSync("123456", 8),
-      role: constValues.userRoles.INSTRUCTOR
-    });
-
-    User.create({
-      username: "student1",
-      password: bcrypt.hashSync("123456", 8),
-      role: constValues.userRoles.STUDENT
-    });
-
-    Module.create({
-      module_name: constValues.moduleNames.FACE_DETECT
-    });
-    Module.create({
-      module_name: constValues.moduleNames.IMAGE_PROCESSING
-    });
-    Module.create({
-      module_name: constValues.moduleNames.VOICE_REC
-    });
 }
 
