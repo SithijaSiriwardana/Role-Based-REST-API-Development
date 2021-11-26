@@ -12,6 +12,7 @@ const constValues = require('./app/utils/constants.js');
 
 const db = require('./app/config/db.config.js');
 const User = db.users;
+const Module = db.modules;
 	//force: true will drop the table if it already exists
 	db.sequelize.sync({force: true}).then(() => {
     console.log('Drop and Resync with { force: true }');
@@ -20,7 +21,7 @@ const User = db.users;
 
 // api routes
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to Our App." });
+  res.json({ message: "Welcome to the VLE." });
 });
 
 require('./app/route/user.route.js')(app);
@@ -38,6 +39,22 @@ function initial() {
       username: "admin",
       password: bcrypt.hashSync("123456", 8),
       role: constValues.userRoles.Admin
+    });
+
+    User.create({
+      username: "sithija",
+      password: bcrypt.hashSync("123456", 8),
+      role: constValues.userRoles.Instrctor
+    });
+
+    Module.create({
+      module_name: constValues.moduleNames.FACE_DETECT
+    });
+    Module.create({
+      module_name: constValues.moduleNames.IMAGE_PROCESSING
+    });
+    Module.create({
+      module_name: constValues.moduleNames.VOICE_REC
     });
 }
 
