@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 const env = require('../config/env.js');
 const constValues = require('../utils/constants.js');
+const db = require('../config/db.config.js');
 
-let userRole;
 
 verifyToken = (req, res, next) => {
 	let token = req.headers['x-access-token'] || req.headers['authorization'];
@@ -15,7 +15,7 @@ verifyToken = (req, res, next) => {
 		message: "A token is required for authentication"
 	  });
 	}
-
+	//verify JWT token
 	jwt.verify(token, env.JWT_ENCRYPTION, (err, decoded) => {
 	  if(err){
 		console.log(err);
@@ -30,6 +30,7 @@ verifyToken = (req, res, next) => {
 	});
 };
 
+//check user has admin privillages
 isAdmin = (req, res,next) => {
 	if(req.userDetails.role !==constValues.userRoles.ADMIN){
 		res.status(401).send({
@@ -41,6 +42,7 @@ isAdmin = (req, res,next) => {
 	return;	
 };
 
+//check user has instructor privillages
 isInstructor = (req, res,next) => {
     if(req.userDetails.role!==constValues.userRoles.INSTRUCTOR){
 		res.status(401).send({
@@ -52,6 +54,7 @@ isInstructor = (req, res,next) => {
 	return;
 };
 
+//check user has student privillages
 isStudent = (req, res,next) => {
     if(req.userDetails.role !==constValues.userRoles.STUDENT){
 		res.status(401).send({
@@ -63,11 +66,50 @@ isStudent = (req, res,next) => {
 	return;
 };
 
+
+//check user privillages for executing modules
+verifyModelExecutePermission = async (req, res, next) => {
+    if (req.userDetails.role === constValues.userRoles.ADMIN || req.userDetails.role === constValues.userRoles.INSTRUCTOR){
+        next();
+        return;
+    }
+    try {
+        var flag = false;
+        const result = await db.sequelize.query(`select module_name from users 
+        join classes on users.class_id = classes.class_id
+        join class_module on classes.class_id = class_module.class_id
+        join modules on class_module.module_id = modules.module_id
+        where user_id = ${req.userDetails.id};`, null, { raw: true })
+        const modules = result[0].map(res => {
+            return res.module_name
+        })
+        for (let i = 0; i < modules.length; i++) {
+            const module = modules[i];
+            if(req.params.moduleName === module){
+                flag = true;
+                break;
+            }
+        };
+        if (!flag) {
+            res.status(401).send({
+              message: "Unauthorized!"
+            });
+          }
+        next()
+    }catch(e) {
+        res.status(500).send({ 
+            success: false,
+            message: e.toString()
+        });
+    }
+};
+
 const authJwt = {
 	verifyToken: verifyToken,
 	isAdmin: isAdmin,
 	isInstructor: isInstructor,
-	isStudent: isStudent
+	isStudent: isStudent,
+	verifyModelExecutePermission: verifyModelExecutePermission
 };
 
 module.exports = authJwt;

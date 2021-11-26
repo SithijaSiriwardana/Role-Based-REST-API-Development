@@ -14,6 +14,9 @@ module.exports = function(app) {
     // Instructor class create
     app.post('/api/user/instructor/class-create', authJwt.verifyToken, authJwt.isInstructor, instructor.classCreate);
 
-    // Instructor class create
+    // User view modules
     app.get('/api/user/view-modules', authJwt.verifyToken, users.viewModules);
+
+    // User execute modules
+    app.get("/api/user/execute-modules/:moduleName", authJwt.verifyToken, authJwt.verifyModelExecutePermission, users.executeModule)
 }
