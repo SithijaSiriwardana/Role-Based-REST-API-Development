@@ -1,7 +1,7 @@
 const userRoles = {
-    Admin: "Admin",
-    Instrctor: "Instructor",
-    Student: "Student"
+    ADMIN: "ADMIN",
+    INSTRUCTOR: "INSTRUCTOR",
+    STUDENT: "STUDENT"
 };
 
 const moduleNames = {
