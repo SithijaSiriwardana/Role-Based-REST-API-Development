@@ -1,4 +1,6 @@
 const express = require("express");
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
 const cors = require("cors");
 const bodyParser   = require('body-parser');
 const app = express();
@@ -19,7 +21,21 @@ const Module = db.modules;
     initial();
 });
 
+const swaggerOptions = {
+  swaggerDefinition: {
+    info:{
+      title: 'Role Based REST API Development',
+      version: '1.0.0'
+    }
+  },
+  apis: ['./app/route/*.js'],
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+
 // api routes
+
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to the VLE." });
 });
@@ -39,6 +55,16 @@ function initial() {
       username: "admin",
       password: bcrypt.hashSync("123456", 8),
       role: constValues.userRoles.ADMIN
+    });
+
+    Module.create({
+      module_name: constValues.moduleNames.FACE_DETECT
+    });
+    Module.create({
+      module_name: constValues.moduleNames.IMAGE_PROCESSING
+    });
+    Module.create({
+      module_name: constValues.moduleNames.VOICE_REC
     });
 }
 

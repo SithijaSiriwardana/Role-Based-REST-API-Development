@@ -14,7 +14,15 @@ module.exports = function(app) {
     // Instructor class create
     app.post('/api/user/instructor/class-create', authJwt.verifyToken, authJwt.isInstructor, instructor.classCreate);
 
-    // User view modules
+    /**
+     * @swagger
+     * /api/user/view-modules:
+     *  get:
+     *    description: Get modules by the user role
+     *    responses:
+     *      200:
+     *        description: Success
+     */
     app.get('/api/user/view-modules', authJwt.verifyToken, users.viewModules);
 
     // User execute modules
