@@ -24,10 +24,12 @@ db.users = require('../model/user.model.js')(sequelize, Sequelize);
 db.classes = require("../model/class.model.js")(sequelize, Sequelize);
 db.modules = require("../model/module.model.js")(sequelize, Sequelize);
 
+//one to many relationship of class and students
 db.classes.hasMany(db.users, {
   foreignKey: "class_id"
 });
 
+//many to many relationship of modules and class
 db.modules.belongsToMany(db.classes, {
   through: "class_module",
   foreignKey: "module_id"

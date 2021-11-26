@@ -5,6 +5,7 @@ const env = require('../config/env.js');
 const constValues = require('../utils/constants.js');
 
 const User = db.users;
+const Modules = db.modules;
 
 exports.signin = (req, res) => {
 	//Check user
@@ -74,4 +75,19 @@ exports.viewModules = async (req, res) => {
 	  }
 	  
 	}
+};
+
+exports.executeModule = async (req, res) => {
+    const result = await Modules.findAll({})
+    const modules = result.map(res => {
+        return res.module_name
+    })
+    for (let i = 0; i < modules.length; i++) {
+        const module = modules[i];
+        if(req.params.moduleName === module){
+            res.status(200).send(`Hello Module ${req.params.moduleName}`);
+        }
+    }
+    res.status(400).send("Module not found!");
+    
 };
