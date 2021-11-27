@@ -44,7 +44,26 @@ module.exports = function(app) {
      */
     app.post('/api/user/admin/instructor-create', authJwt.verifyToken, authJwt.isAdmin, admin.instrcutorCreate);
 
-    // Instructor class create
+    /**
+     * @swagger
+     * /api/user/instructor/class-create:
+     *  post:
+     *    description: Create class
+     *    parameters:
+     *      - name: x-access-token
+     *        description: x-access-token of the instructor
+     *        in: header
+     *        required: true
+     *        type: string
+     *      - name: Class details
+     *        description: Class details as className, moduleList, and studentNameList
+     *        in: body
+     *        required: true
+     *        type: string
+     *    responses:
+     *      200:
+     *        description: Success
+     */
     app.post('/api/user/instructor/class-create', authJwt.verifyToken, authJwt.isInstructor, instructor.classCreate);
 
     /**
@@ -58,6 +77,25 @@ module.exports = function(app) {
      */
     app.get('/api/user/view-modules', authJwt.verifyToken, users.viewModules);
 
-    // User execute modules
+    /**
+     * @swagger
+     * /api/user/execute-modules/{moduleName}:
+     *  get:
+     *    description: Executes modules by the user role
+     *    parameters:
+     *      - name: x-access-token
+     *        description: x-access-token of the user
+     *        in: header
+     *        required: true
+     *        type: string
+     *      - name: moduleName
+     *        description: Module name that want to execute
+     *        in: path
+     *        required: true
+     *        type: string
+     *    responses:
+     *      200:
+     *        description: Success
+     */
     app.get("/api/user/execute-modules/:moduleName", authJwt.verifyToken, authJwt.verifyModelExecutePermission, users.executeModule)
 }
