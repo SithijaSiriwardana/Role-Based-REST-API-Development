@@ -1,9 +1,11 @@
 # Role-Based-REST-API-Development
 
-git clone https://github.com/SithijaSiriwardana/Role-Based-REST-API-Development.git
+Steps to run the project
 
-cd .\Role-Based-REST-API-Development
+`git clone https://github.com/SithijaSiriwardana/Role-Based-REST-API-Development.git`
 
-npm install
+`cd .\Role-Based-REST-API-Development`
 
-node server.js
+`npm install`
+
+`node server.js`
