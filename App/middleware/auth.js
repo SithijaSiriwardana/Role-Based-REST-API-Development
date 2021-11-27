@@ -87,15 +87,16 @@ verifyModelExecutePermission = async (req, res, next) => {
             const module = modules[i];
             if(req.params.moduleName === module){
                 flag = true;
-                break;
+				next();
+				return;
             }
         };
         if (!flag) {
             res.status(401).send({
               message: "Unauthorized!"
             });
+			return;
           }
-        next()
     }catch(e) {
         res.status(500).send({ 
             success: false,

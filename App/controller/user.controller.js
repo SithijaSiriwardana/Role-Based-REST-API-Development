@@ -59,7 +59,6 @@ exports.viewModules = async (req, res) => {
 		join class_module on classes.class_id = class_module.class_id
 		join modules on class_module.module_id = modules.module_id 
 		where user_id = ${req.userDetails.id};`, null, { raw: true })
-		console.log(result);
 		const modules = result[0].map(res => {
 			return res.module_name
 		})
@@ -86,8 +85,9 @@ exports.executeModule = async (req, res) => {
         const module = modules[i];
         if(req.params.moduleName === module){
             res.status(200).send(`Hello Module ${req.params.moduleName}`);
+			return;
         }
-    }
-    res.status(400).send("Module not found!");
-    
+    } 
+	res.status(400).send("Module not found!");
+	return;
 };
