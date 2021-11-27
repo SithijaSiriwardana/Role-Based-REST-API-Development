@@ -5,10 +5,43 @@ module.exports = function(app) {
     const instructor = require('../controller/instructor.controller.js');
     const authJwt = require('../middleware/auth.js');
 
-    // User signin
+    /**
+     * @swagger
+     * /api/user/signin:
+     *  post:
+     *    description: User signin
+     *    parameters:
+     *      - name: Username and Password
+     *        description: username and password
+     *        in: body
+     *        required: true
+     *        type: string
+     *    responses:
+     *      200:
+     *        description: Success
+     */
     app.post('/api/user/signin', users.signin);
 
-    // Admin instructor create
+    /**
+     * @swagger
+     * /api/user/admin/instructor-create:
+     *  post:
+     *    description: Create instructor
+     *    parameters:
+     *      - name: x-access-token
+     *        description: x-access-token of the admin
+     *        in: header
+     *        required: true
+     *        type: string
+     *      - name: Instructor name
+     *        description: Instructor name
+     *        in: body
+     *        required: true
+     *        type: string
+     *    responses:
+     *      200:
+     *        description: Success
+     */
     app.post('/api/user/admin/instructor-create', authJwt.verifyToken, authJwt.isAdmin, admin.instrcutorCreate);
 
     // Instructor class create
